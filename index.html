@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Motor Shop Inventory</title>
+    <link rel="icon" href="assets/img/favicon.png" />
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/vouchers.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="css/print.css" />
+  </head>
+  <body class="locked">
+    <div id="lg">
+      <div class="lgc">
+        <img id="lg_logo" src="assets/img/logo.png" alt="Motor Shop" />
+        <h2>Admin Login</h2>
+        <div class="sub">Sign in to manage your inventory</div>
+        <label class="l" id="lg_user_label">Username</label
+        ><input id="lg_u" autocomplete="username" onkeydown="if (event.key == 'Enter') $('lg_p').focus();" />
+        <label class="l">Password</label
+        ><input
+          id="lg_p"
+          type="password"
+          autocomplete="current-password"
+          onkeydown="if (event.key == 'Enter') doLogin();"
+        />
+        <div class="lgerr" id="lg_m"></div>
+        <button class="btn p" style="width: 100%; height: 42px" onclick="doLogin()">Sign In</button>
+      </div>
+    </div>
+    <div class="app">
+      <aside>
+        <div class="brand"><img src="assets/img/logo.png" alt="Motor Shop Parts &amp; Accessories" /></div>
+        <nav>
+          <div class="grp">Overview</div>
+          <a data-t="dash" onclick="go('dash')">Dashboard</a>
+          <div class="grp">Inventory</div>
+          <a data-t="inv" onclick="go('inv')">All Inventory</a>
+          <a data-t="stock" onclick="go('stock')">Stock Area</a>
+          <div class="grp">Customers</div>
+          <a data-t="pre" onclick="go('pre')">Pre-Orders</a>
+          <a data-t="vch" onclick="go('vch')">Vouchers</a>
+          <a data-t="sales" onclick="go('sales')">Sales</a>
+        </nav>
+        <div class="sp"></div>
+        <div class="grp hide-m">System</div>
+        <a class="hide-m" onclick="toggleTheme()">Light / Dark Mode</a>
+        <a class="hide-m" onclick="logout()">Log out</a>
+      </aside>
+      <main>
+        <div class="top">
+          <div>
+            <h1 id="ttl">Dashboard</h1>
+            <div class="sub" id="sub"></div>
+          </div>
+          <button class="btn p" id="addbtn" onclick="openM()">+ Add New Part</button
+          ><button class="btn p" id="prebtn" style="display: none" onclick="openP()">+ New Pre-Order</button
+          ><button class="btn p" id="vbtn" style="display: none" onclick="openV()">+ New Voucher</button
+          ><button class="btn" id="lgo" onclick="logout()">Log out</button>
+        </div>
+
+        <section id="dash">
+          <div class="grid g4" id="kpis"></div>
+          <div class="grid g2" style="margin-top: 14px">
+            <div class="card">
+              <h3>Stock Level (lowest first)</h3>
+              <div class="stk" id="stk"></div>
+            </div>
+            <div class="card">
+              <h3>Profit by Category</h3>
+              <div class="row" style="flex-wrap: nowrap">
+                <svg id="donut" viewBox="0 0 120 120" width="150" height="150"></svg>
+                <div class="legend" id="legend" style="flex: 1"></div>
+              </div>
+            </div>
+            <div class="card" style="grid-column: 1/-1">
+              <div class="row" style="justify-content: space-between">
+                <h3>Top Selling Parts</h3>
+                <button
+                  class="btn sm"
+                  onclick="
+                    sf = '';
+                    $('so').value = 'sold';
+                    go('inv');
+                    render();
+                  "
+                >
+                  View all
+                </button>
+              </div>
+              <div class="wrap"><table id="top"></table></div>
+            </div>
+            <div class="card" style="grid-column: 1/-1">
+              <div class="row" style="justify-content: space-between">
+                <h3>Needs Attention</h3>
+                <button class="btn sm" onclick="go('stock')">Open Stock Area</button>
+              </div>
+              <div id="alerts"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="inv" style="display: none">
+          <div class="card">
+            <div class="chips" id="chips"></div>
+            <div class="filters">
+              <div class="s">
+                <label class="l">Search</label
+                ><input id="q" placeholder="Name, brand, SKU, bike model…" oninput="render()" />
+              </div>
+              <div>
+                <label class="l">Category</label
+                ><select id="cf" onchange="render()"></select>
+              </div>
+              <div>
+                <label class="l">Brand</label
+                ><select id="bf" onchange="render()"></select>
+              </div>
+              <div>
+                <label class="l">Sort by</label
+                ><select id="so" onchange="render()">
+                  <option value="name">Name A–Z</option>
+                  <option value="qtyA">Stock: low to high</option>
+                  <option value="qtyD">Stock: high to low</option>
+                  <option value="priceA">Price: low to high</option>
+                  <option value="priceD">Price: high to low</option>
+                  <option value="profit">Profit/pc: high to low</option>
+                  <option value="sold">Sold: high to low</option>
+                  <option value="tprofit">Total profit: high to low</option>
+                </select>
+              </div>
+            </div>
+            <div class="row" style="justify-content: space-between; margin-bottom: 12px">
+              <div class="sub" id="cnt"></div>
+              <div class="row">
+                <button class="btn sm" onclick="clearF()">Clear filters</button>
+                <div class="seg">
+                  <button id="v-t" onclick="setView('t')">List</button
+                  ><button id="v-c" onclick="setView('c')">Photos</button>
+                </div>
+              </div>
+            </div>
+            <div id="tbw" class="wrap"><table id="tb"></table></div>
+            <div id="cds" class="cards"></div>
+          </div>
+        </section>
+
+        <section id="stock" style="display: none">
+          <div class="grid g4" id="skp" style="margin-bottom: 16px"></div>
+          <div class="grid gs">
+            <div class="card" style="align-self: start">
+              <h3>Receive Stock</h3>
+              <div class="sub" style="margin: -8px 0 14px">
+                Record a supplier delivery. Quantity is added to the current stock.
+              </div>
+              <div class="f">
+                <div class="full">
+                  <label class="l">Part</label
+                  ><select id="si_p" onchange="siInfo()"></select>
+                </div>
+                <div class="full" id="si_info" style="margin: 0"></div>
+                <div class="full sec" style="margin: 4px 0 0">Delivery details</div>
+                <div>
+                  <label class="l">Quantity received</label
+                  ><input id="si_q" type="number" min="1" placeholder="0" oninput="siInfo()" />
+                </div>
+                <div><label class="l">Date received</label><input id="si_d" type="date" /></div>
+                <div>
+                  <label class="l">Unit cost (PHP)</label
+                  ><input id="si_c" type="number" min="0" placeholder="Keep current cost" />
+                </div>
+                <div>
+                  <label class="l">Invoice / reference</label><input id="si_n" placeholder="Optional" />
+                </div>
+                <div class="full">
+                  <label class="l">Supplier</label
+                  ><input id="si_s" list="sups" placeholder="e.g. RCB Distributor" /><datalist
+                    id="sups"
+                  ></datalist>
+                </div>
+              </div>
+              <button class="btn p" style="width: 100%; margin-top: 18px; height: 40px" onclick="stockIn()">
+                Confirm Stock In
+              </button>
+            </div>
+            <div class="card">
+              <div class="row" style="justify-content: space-between">
+                <h3>Restock Queue</h3>
+                <span class="sub" style="margin: 0">Sorted by urgency</span>
+              </div>
+              <div class="wrap"><table id="rs" style="min-width: 540px"></table></div>
+            </div>
+          </div>
+          <div class="card" style="margin-top: 16px">
+            <div class="row" style="justify-content: space-between">
+              <h3>Stock-In History</h3>
+              <span class="sub" id="hcount" style="margin: 0"></span>
+            </div>
+            <div class="wrap"><table id="hs"></table></div>
+          </div>
+        </section>
+
+        <section id="pre" style="display: none">
+          <div class="grid g4" id="pkpi" style="margin-bottom: 14px"></div>
+          <div class="card">
+            <div class="chips" id="pchips"></div>
+            <div class="wrap"><table id="pt"></table></div>
+          </div>
+        </section>
+
+        <section id="vch" style="display: none">
+          <div class="grid g4" id="vkpi" style="margin-bottom: 16px"></div>
+          <div class="card">
+            <div class="wrap"><table id="vt"></table></div>
+          </div>
+        </section>
+
+        <section id="sales" style="display: none">
+          <div class="grid g4" id="skpi" style="margin-bottom: 14px"></div>
+          <div class="card">
+            <h3>Sales Log</h3>
+            <div class="wrap"><table id="sl"></table></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="modal" id="vprint">
+      <div class="card" style="width: 860px">
+        <h3 class="noprint">Print Voucher</h3>
+        <div class="row noprint" style="margin-bottom: 14px">
+          <label class="l" style="margin: 0">Layout</label
+          ><select id="vp_n" style="width: 280px" onchange="drawVP()">
+            <option value="1">One voucher</option>
+            <option value="3">Three per page (cut along the edges)</option>
+          </select>
+        </div>
+        <div id="vpArea"></div>
+        <div class="row noprint" style="margin-top: 14px; justify-content: flex-end">
+          <button class="btn" onclick="$('vprint').classList.remove('on')">Close</button
+          ><button class="btn p" onclick="doPrint()">Print</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="sm">
+      <div class="card" style="width: 470px">
+        <h3>Sell Part</h3>
+        <div id="sl_info"></div>
+        <div class="f">
+          <div>
+            <label class="l">Quantity</label
+            ><input id="sl_q" type="number" min="1" value="1" oninput="slCalc()" />
+          </div>
+          <div>
+            <label class="l">Voucher code (optional)</label
+            ><input id="sl_v" placeholder="MS-XXXXXX" oninput="slCalc()" style="text-transform: uppercase" />
+          </div>
+          <div class="full" id="sl_msg"></div>
+        </div>
+        <div class="sum" id="sl_sum"></div>
+        <div class="row" style="margin-top: 16px; justify-content: flex-end">
+          <button class="btn" onclick="closeS()">Cancel</button
+          ><button class="btn p" onclick="slDo()">Confirm Sale</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="vm">
+      <div class="card">
+        <h3>New Voucher</h3>
+        <div class="f">
+          <div class="full">
+            <label class="l">Voucher code (auto-generated)</label>
+            <div class="row" style="flex-wrap: nowrap">
+              <input id="v_code" readonly class="code" style="height: 38px; font-size: 15px" /><button
+                class="btn"
+                type="button"
+                onclick="$('v_code').value = genCode()"
+              >
+                Regenerate
+              </button>
+            </div>
+          </div>
+          <div class="full">
+            <label class="l">Voucher name</label
+            ><input id="v_nm" placeholder="e.g. Loyal Customer Discount" />
+          </div>
+          <div class="full">
+            <label class="l">Description</label
+            ><textarea id="v_ds" rows="2" placeholder="What is this voucher for?"></textarea>
+          </div>
+          <div>
+            <label class="l">Discount type</label
+            ><select id="v_ty">
+              <option value="pct">Percent off (%)</option>
+              <option value="amt">Fixed amount off (PHP)</option>
+            </select>
+          </div>
+          <div>
+            <label class="l">How much off</label
+            ><input id="v_val" type="number" min="1" placeholder="e.g. 10" />
+          </div>
+          <div><label class="l">Valid until (optional)</label><input id="v_ex" type="date" /></div>
+          <div>
+            <label class="l">Usage limit (optional)</label
+            ><input id="v_lm" type="number" min="1" placeholder="Unlimited" />
+          </div>
+        </div>
+        <div class="row" style="margin-top: 16px; justify-content: flex-end">
+          <button class="btn" onclick="$('vm').classList.remove('on')">Cancel</button
+          ><button class="btn p" onclick="saveV()">Create Voucher</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="pm">
+      <div class="card">
+        <h3>New Pre-Order</h3>
+        <div class="f">
+          <div class="full"><label class="l">Customer name</label><input id="p_cn" /></div>
+          <div><label class="l">Contact number</label><input id="p_ct" type="tel" /></div>
+          <div><label class="l">Expected arrival</label><input id="p_dt" type="date" /></div>
+          <div class="full">
+            <label class="l">Part from inventory (optional)</label
+            ><select id="p_pt" onchange="pfill()"></select>
+          </div>
+          <div class="full">
+            <label class="l">Part name / details</label
+            ><input id="p_nm" placeholder="e.g. RCB rear shock for NMAX" />
+          </div>
+          <div><label class="l">Quantity</label><input id="p_q" type="number" min="1" /></div>
+          <div><label class="l">Price each (₱)</label><input id="p_pr" type="number" min="0" /></div>
+          <div><label class="l">Deposit paid (₱)</label><input id="p_dp" type="number" min="0" /></div>
+          <div><label class="l">Cost each (₱)</label><input id="p_cs" type="number" min="0" /></div>
+          <div class="full"><label class="l">Note</label><input id="p_nt" placeholder="optional" /></div>
+        </div>
+        <div class="row" style="margin-top: 14px; justify-content: flex-end">
+          <button class="btn" onclick="closeP()">Cancel</button
+          ><button class="btn p" onclick="saveP()">Save Pre-Order</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="m">
+      <div class="card">
+        <h3 id="mt">Add Part</h3>
+        <div class="f">
+          <div class="full">
+            <label class="l">Part photo</label>
+            <label style="margin: 0; display: block"
+              ><div class="pv" id="pv">Click to upload or take a photo</div>
+              <input type="file" id="ph" accept="image/*" style="display: none" onchange="pick(this)"
+            /></label>
+          </div>
+          <div class="full">
+            <label class="l">Or paste an image link</label>
+            <div class="row" style="flex-wrap: nowrap">
+              <input
+                id="iu"
+                type="url"
+                placeholder="https://example.com/part.jpg"
+                oninput="
+                  img = '';
+                  pv();
+                "
+              /><button class="btn" type="button" onclick="clearImg()">Clear</button>
+            </div>
+            <div class="sub">
+              Uploading a photo replaces the link, and pasting a link replaces the uploaded photo.
+            </div>
+          </div>
+          <div class="full">
+            <label class="l">Part name</label><input id="n" placeholder="e.g. Handle Grip Racing" />
+          </div>
+          <div>
+            <label class="l">Brand</label><input id="b" list="brs" placeholder="RCB, Motul, NGK…" /><datalist
+              id="brs"
+            ></datalist>
+          </div>
+          <div><label class="l">SKU / Code</label><input id="s" /></div>
+          <div>
+            <label class="l">Category</label><input id="c" list="cats" /><datalist id="cats"></datalist>
+          </div>
+          <div>
+            <label class="l">Compatible bikes</label><input id="cb" placeholder="Mio, Click 125, NMAX" />
+          </div>
+          <div><label class="l">Cost price (₱)</label><input id="cp" type="number" min="0" /></div>
+          <div><label class="l">Selling price (₱)</label><input id="sp" type="number" min="0" /></div>
+          <div><label class="l">Quantity now</label><input id="qt" type="number" min="0" /></div>
+          <div><label class="l">Low-stock alert at</label><input id="lw" type="number" min="0" /></div>
+          <div class="full"><label class="l">Notes</label><textarea id="nt" rows="2"></textarea></div>
+        </div>
+        <div class="row" style="margin-top: 14px; justify-content: flex-end">
+          <button class="btn" onclick="closeM()">Cancel</button
+          ><button class="btn p" onclick="save()">Save Part</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/services/seed.js"></script>
+    <script src="js/services/storage.js"></script>
+    <script src="js/services/stats.js"></script>
+    <script src="js/ui/components.js"></script>
+    <script src="js/ui/nav.js"></script>
+    <script src="js/views/dashboard.js"></script>
+    <script src="js/views/inventory.js"></script>
+    <script src="js/views/stock.js"></script>
+    <script src="js/views/sales.js"></script>
+    <script src="js/views/preorders.js"></script>
+    <script src="js/views/vouchers.js"></script>
+    <script src="js/views/voucher-print.js"></script>
+    <script src="js/views/parts.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

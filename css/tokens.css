@@ -1,0 +1,60 @@
+/* Design tokens: colours for light and dark mode */
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f4f6f8;
+  --card: #fff;
+  --ink: #0f172a;
+  --mut: #64748b;
+  --line: #e2e8f0;
+  --head: #f8fafc;
+  --acc: #1e3a8a;
+  --acch: #172e6e;
+  --onacc: #fff;
+  --accbg: #eaf0fb;
+  --ok: #166534;
+  --okbg: #e6f4ea;
+  --lo: #92400e;
+  --lobg: #fdf3dc;
+  --out: #991b1b;
+  --outbg: #fdeaea;
+}
+:root[data-theme="dark"] {
+  --bg: #0d1117;
+  --card: #161b22;
+  --ink: #e6edf3;
+  --mut: #8b98a8;
+  --line: #28303b;
+  --head: #1b212a;
+  --acc: #6ea0ff;
+  --acch: #8bb4ff;
+  --onacc: #0d1117;
+  --accbg: #1a2740;
+  --ok: #6ee7a0;
+  --okbg: #12301c;
+  --lo: #f5c26b;
+  --lobg: #3a2d0a;
+  --out: #fca5a5;
+  --outbg: #3b1416;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1117;
+    --card: #161b22;
+    --ink: #e6edf3;
+    --mut: #8b98a8;
+    --line: #28303b;
+    --head: #1b212a;
+    --acc: #6ea0ff;
+    --acch: #8bb4ff;
+    --onacc: #0d1117;
+    --accbg: #1a2740;
+    --ok: #6ee7a0;
+    --okbg: #12301c;
+    --lo: #f5c26b;
+    --lobg: #3a2d0a;
+    --out: #fca5a5;
+    --outbg: #3b1416;
+  }
+}

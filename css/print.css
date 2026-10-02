@@ -1,0 +1,40 @@
+/* Print rules (vouchers) */
+@media print {
+  html,
+  body {
+    background: #fff !important;
+  }
+  .app,
+  .modal {
+    display: none !important;
+  }
+  #vprint.on {
+    display: block !important;
+    position: static;
+    background: none;
+    padding: 0;
+  }
+  #vprint .card {
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    max-height: none;
+    overflow: visible;
+    width: auto !important;
+  }
+  #vprint h3 {
+    display: none;
+  }
+  .noprint {
+    display: none !important;
+  }
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+}
+@media print {
+  #lg {
+    display: none !important;
+  }
+}

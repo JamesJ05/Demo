@@ -1,0 +1,9 @@
+{
+  "name": "motor-shop-inventory",
+  "version": "1.0.0",
+  "description": "Inventory, sales, pre-orders and vouchers for a motorparts store",
+  "private": true,
+  "scripts": {
+    "start": "npx serve ."
+  }
+}

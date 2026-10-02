@@ -1,0 +1,61 @@
+/* Phone and tablet layout */
+@media (max-width: 900px) {
+  aside {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: auto;
+    flex-direction: row;
+    z-index: 5;
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--line);
+    border-right: 0;
+    overflow: visible;
+  }
+  aside .brand,
+  aside .sp,
+  aside .hide-m,
+  .grp {
+    display: none;
+  }
+  nav {
+    display: contents;
+  }
+  aside a {
+    flex: 1;
+    text-align: center;
+    padding: 10px 2px;
+    font-size: 12px;
+  }
+  aside a.on {
+    box-shadow: inset 0 3px 0 var(--acc);
+  }
+  .role {
+    position: fixed;
+    top: calc(8px + env(safe-area-inset-top, 0px));
+    right: 12px;
+    margin: 0;
+    z-index: 6;
+    width: 170px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  }
+  main {
+    padding: 20px 14px 96px;
+  }
+  .g4 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .g2,
+  .gs {
+    grid-template-columns: 1fr;
+  }
+  .filters {
+    grid-template-columns: 1fr 1fr;
+  }
+  .filters .s {
+    grid-column: 1/-1;
+  }
+}

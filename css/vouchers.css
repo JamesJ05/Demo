@@ -1,0 +1,173 @@
+/* Voucher code chip and printable voucher design */
+.code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: var(--head);
+  border: 1px solid var(--line);
+  padding: 4px 9px;
+  border-radius: 6px;
+  display: inline-block;
+  color: var(--ink);
+}
+#vpArea {
+  overflow-x: auto;
+  padding: 4px 2px;
+}
+.vpw {
+  margin-bottom: 14px;
+  break-inside: avoid;
+}
+.vp {
+  display: flex;
+  width: 100%;
+  max-width: 780px;
+  min-width: 640px;
+  margin: 0 auto;
+  background: #fff;
+  color: #111;
+  border: 2px solid #111;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+.vp-main {
+  flex: 1;
+  padding: 16px 24px 32px 28px;
+  position: relative;
+  border-left: 12px solid #d10f1f;
+  min-width: 0;
+}
+.vp-main .chk {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 12px;
+  background: repeating-conic-gradient(#111 0 25%, #fff 0 50%) 0 0/12px 12px;
+}
+.vp-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.vp-head img {
+  height: 80px;
+  width: auto;
+}
+.vp-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: #111;
+  color: #fff;
+  padding: 6px 11px;
+  border-radius: 4px;
+}
+.vp-off {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 4px 0 2px;
+}
+.vp-n {
+  font-family: "Arial Black", Impact, sans-serif;
+  font-size: 60px;
+  font-style: italic;
+  line-height: 1;
+  color: #d10f1f;
+  letter-spacing: -0.03em;
+}
+.vp-o {
+  font-family: "Arial Black", Impact, sans-serif;
+  font-size: 26px;
+  font-style: italic;
+}
+.vp-t1 {
+  font-size: 19px;
+  font-weight: 800;
+}
+.vp-t2 {
+  font-size: 13px;
+  color: #444;
+  margin-top: 2px;
+  max-width: 430px;
+}
+.vp-f {
+  display: flex;
+  gap: 26px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.vp-f small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #666;
+  font-weight: 700;
+}
+.vp-f b {
+  font-size: 13px;
+}
+.vp-fine {
+  font-size: 10px;
+  color: #666;
+  flex: 1;
+  min-width: 170px;
+}
+.vp-stub {
+  width: 216px;
+  flex-shrink: 0;
+  background: #111;
+  color: #fff;
+  border-left: 3px dashed #d10f1f;
+  padding: 18px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+.vp-stub:before,
+.vp-stub:after {
+  content: "";
+  position: absolute;
+  left: -15px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #111;
+}
+.vp-stub:before {
+  top: -15px;
+}
+.vp-stub:after {
+  bottom: -15px;
+}
+.vp-stub small {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #bbb;
+  font-weight: 700;
+}
+.vp-code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin: 6px 0 12px;
+  word-break: break-all;
+}
+.vp-stub svg {
+  margin-bottom: 10px;
+  display: block;
+}

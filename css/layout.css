@@ -1,0 +1,125 @@
+/* App shell: sidebar, main area, page header, grid */
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+aside {
+  width: 236px;
+  background: var(--card);
+  border-right: 1px solid var(--line);
+  padding: 20px 14px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 6px 18px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 14px;
+}
+.brand b {
+  display: block;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+.brand span {
+  color: var(--mut);
+  font-size: 12px;
+}
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.grp {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--mut);
+  padding: 16px 12px 6px;
+}
+aside a {
+  display: block;
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: var(--mut);
+  cursor: pointer;
+  font-weight: 500;
+}
+aside a:hover {
+  background: var(--bg);
+  color: var(--ink);
+}
+aside a.on {
+  background: var(--accbg);
+  color: var(--acc);
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 var(--acc);
+}
+.sp {
+  flex: 1;
+}
+main {
+  flex: 1;
+  min-width: 0;
+  padding: 26px 32px 40px;
+  max-width: 1400px;
+}
+h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+h3 {
+  margin: 0 0 14px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 22px;
+}
+.sub {
+  color: var(--mut);
+  font-size: 13px;
+  margin-top: 3px;
+}
+.grid {
+  display: grid;
+  gap: 16px;
+}
+.g4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.g2 {
+  grid-template-columns: 1fr 1fr;
+}
+.gs {
+  grid-template-columns: 350px 1fr;
+}
+.brand {
+  justify-content: center;
+  padding: 0 6px 16px;
+}
+.brand img {
+  width: 100%;
+  max-width: 170px;
+  height: auto;
+  display: block;
+}
